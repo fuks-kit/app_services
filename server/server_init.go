@@ -28,6 +28,7 @@ func init() {
 
 	sheet, err := sheets.NewService(ctx,
 		option.WithCredentials(credentials),
+		option.WithScopes(params.Scopes...),
 	)
 	if err != nil {
 		log.Fatalf("Unable to retrieve Sheets client: %v", err)
