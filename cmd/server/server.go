@@ -16,7 +16,7 @@ func main() {
 		SheetId:       os.Getenv("FUKS_APP_CONTENT_SHEET_ID"),
 		EventsSheet:   "Events",
 		ProjectsSheet: "Projects",
-		KtSheet:       "Karlsruher Transfer",
+		KTSheet:       "Karlsruher Transfer",
 	})
 
 	grpcServer := grpc.NewServer()

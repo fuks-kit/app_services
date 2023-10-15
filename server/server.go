@@ -8,7 +8,7 @@ type Config struct {
 	SheetId       string
 	EventsSheet   string
 	ProjectsSheet string
-	KtSheet       string
+	KTSheet       string
 }
 
 type AppServices struct {

@@ -23,11 +23,13 @@ func main() {
 
 	appServices := pb.NewAppServicesClient(client)
 
+	ctx := context.Background()
+
 	//
 	// Get Events
 	//
 
-	events, err := appServices.GetEvents(context.Background(), &emptypb.Empty{})
+	events, err := appServices.GetEvents(ctx, &emptypb.Empty{})
 	if err != nil {
 		log.Fatalf("could not get events: %v", err)
 	}
@@ -39,11 +41,23 @@ func main() {
 	// Get Projects
 	//
 
-	projects, err := appServices.GetProjects(context.Background(), &emptypb.Empty{})
+	projects, err := appServices.GetProjects(ctx, &emptypb.Empty{})
 	if err != nil {
 		log.Fatalf("could not get events: %v", err)
 	}
 
 	byt, _ = json.MarshalIndent(projects, "", "  ")
 	log.Printf("GetProjects: %s", byt)
+
+	//
+	// Get Kalrsruhe Transfers
+	//
+
+	kts, err := appServices.GetKarlsruherTransfers(ctx, &emptypb.Empty{})
+	if err != nil {
+		log.Fatalf("could not get events: %v", err)
+	}
+
+	byt, _ = json.MarshalIndent(kts, "", "  ")
+	log.Printf("GetKarlsruherTransfers: %s", byt)
 }
