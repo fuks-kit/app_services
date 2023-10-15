@@ -20,9 +20,9 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	AppServices_GetEvents_FullMethodName   = "/endpoints.fcs.v1.AppServices/GetEvents"
-	AppServices_GetProjects_FullMethodName = "/endpoints.fcs.v1.AppServices/GetProjects"
-	AppServices_GetKTs_FullMethodName      = "/endpoints.fcs.v1.AppServices/GetKTs"
+	AppServices_GetEvents_FullMethodName              = "/endpoints.fcs.v1.AppServices/GetEvents"
+	AppServices_GetProjects_FullMethodName            = "/endpoints.fcs.v1.AppServices/GetProjects"
+	AppServices_GetKarlsruherTransfers_FullMethodName = "/endpoints.fcs.v1.AppServices/GetKarlsruherTransfers"
 )
 
 // AppServicesClient is the client API for AppServices service.
@@ -31,7 +31,7 @@ const (
 type AppServicesClient interface {
 	GetEvents(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Events, error)
 	GetProjects(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Projects, error)
-	GetKTs(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*KarlsruherTransfers, error)
+	GetKarlsruherTransfers(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*KarlsruherTransfers, error)
 }
 
 type appServicesClient struct {
@@ -60,9 +60,9 @@ func (c *appServicesClient) GetProjects(ctx context.Context, in *emptypb.Empty, 
 	return out, nil
 }
 
-func (c *appServicesClient) GetKTs(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*KarlsruherTransfers, error) {
+func (c *appServicesClient) GetKarlsruherTransfers(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*KarlsruherTransfers, error) {
 	out := new(KarlsruherTransfers)
-	err := c.cc.Invoke(ctx, AppServices_GetKTs_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, AppServices_GetKarlsruherTransfers_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +75,7 @@ func (c *appServicesClient) GetKTs(ctx context.Context, in *emptypb.Empty, opts 
 type AppServicesServer interface {
 	GetEvents(context.Context, *emptypb.Empty) (*Events, error)
 	GetProjects(context.Context, *emptypb.Empty) (*Projects, error)
-	GetKTs(context.Context, *emptypb.Empty) (*KarlsruherTransfers, error)
+	GetKarlsruherTransfers(context.Context, *emptypb.Empty) (*KarlsruherTransfers, error)
 	mustEmbedUnimplementedAppServicesServer()
 }
 
@@ -89,8 +89,8 @@ func (UnimplementedAppServicesServer) GetEvents(context.Context, *emptypb.Empty)
 func (UnimplementedAppServicesServer) GetProjects(context.Context, *emptypb.Empty) (*Projects, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetProjects not implemented")
 }
-func (UnimplementedAppServicesServer) GetKTs(context.Context, *emptypb.Empty) (*KarlsruherTransfers, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetKTs not implemented")
+func (UnimplementedAppServicesServer) GetKarlsruherTransfers(context.Context, *emptypb.Empty) (*KarlsruherTransfers, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetKarlsruherTransfers not implemented")
 }
 func (UnimplementedAppServicesServer) mustEmbedUnimplementedAppServicesServer() {}
 
@@ -141,20 +141,20 @@ func _AppServices_GetProjects_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AppServices_GetKTs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _AppServices_GetKarlsruherTransfers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AppServicesServer).GetKTs(ctx, in)
+		return srv.(AppServicesServer).GetKarlsruherTransfers(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: AppServices_GetKTs_FullMethodName,
+		FullMethod: AppServices_GetKarlsruherTransfers_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AppServicesServer).GetKTs(ctx, req.(*emptypb.Empty))
+		return srv.(AppServicesServer).GetKarlsruherTransfers(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -175,8 +175,8 @@ var AppServices_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AppServices_GetProjects_Handler,
 		},
 		{
-			MethodName: "GetKTs",
-			Handler:    _AppServices_GetKTs_Handler,
+			MethodName: "GetKarlsruherTransfers",
+			Handler:    _AppServices_GetKarlsruherTransfers_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
