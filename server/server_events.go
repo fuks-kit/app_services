@@ -46,7 +46,12 @@ func (service *AppServices) GetEvents(_ context.Context, _ *emptypb.Empty) (*pb.
 			continue
 		}
 
-		loc, _ := time.LoadLocation("Europe/Berlin")
+		loc, err := time.LoadLocation("Europe/Berlin")
+		if err != nil {
+			log.Printf("Unable to load location: %v", err)
+			continue
+		}
+
 		eventDate := dateStr + " " + timeStr
 		date, err := time.ParseInLocation("02/01/2006 15:04", eventDate, loc)
 		if err != nil {
