@@ -21,7 +21,8 @@ func init() {
 		Scopes: []string{
 			sheets.SpreadsheetsReadonlyScope,
 		},
-		Subject: "patrick.zierahn@fuks.org",
+		//Subject: "patrick.zierahn@fuks.org",
+		Subject: "fcs-account@fuks-app.iam.gserviceaccount.com",
 	}
 
 	var credentials *auth.Credentials
