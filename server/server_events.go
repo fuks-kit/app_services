@@ -54,8 +54,6 @@ func (service *AppServices) GetEvents(_ context.Context, _ *emptypb.Empty) (*pb.
 			continue
 		}
 
-		log.Printf("Date: %v", date)
-
 		location, _ := row[4].(string)
 		contactName, _ := row[5].(string)
 		contactEMail, _ := row[6].(string)
