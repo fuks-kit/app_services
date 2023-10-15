@@ -3,12 +3,9 @@ package server
 import (
 	"context"
 	_ "embed"
-	"encoding/json"
-	auth "golang.org/x/oauth2/google"
 	"google.golang.org/api/option"
 	"google.golang.org/api/sheets/v4"
 	"log"
-	"os"
 )
 
 var sheetsService *sheets.Service
@@ -28,36 +25,39 @@ type Debug struct {
 func init() {
 	ctx := context.Background()
 
-	params := auth.CredentialsParams{
-		Scopes: []string{
-			sheets.SpreadsheetsReadonlyScope,
-		},
-		Subject: "patrick.zierahn@fuks.org",
-	}
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
-	log.Printf("######## GOOGLE_APPLICATION_CREDENTIALS: %s", os.Getenv("GOOGLE_APPLICATION_CREDENTIALS"))
-
-	credentials, err := auth.FindDefaultCredentialsWithParams(ctx, params)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	log.Printf("######## ProjectID: %s", credentials.ProjectID)
-
-	if credentials.JSON == nil || len(credentials.JSON) == 0 {
-		log.Fatalln("######## credentials.JSON == nil")
-	} else {
-		var deb Debug
-		err = json.Unmarshal(credentials.JSON, &deb)
-		if err != nil {
-			log.Fatalln(err)
-		}
-
-		log.Printf("########: deb=%+v", deb)
-	}
+	//params := auth.CredentialsParams{
+	//	Scopes: []string{
+	//		sheets.SpreadsheetsReadonlyScope,
+	//	},
+	//	Subject: "patrick.zierahn@fuks.org",
+	//}
+	//
+	//log.Printf("######## GOOGLE_APPLICATION_CREDENTIALS: %s", os.Getenv("GOOGLE_APPLICATION_CREDENTIALS"))
+	//
+	//credentials, err := auth.FindDefaultCredentialsWithParams(ctx, params)
+	//if err != nil {
+	//	log.Fatalln(err)
+	//}
+	//
+	//log.Printf("######## ProjectID: %s", credentials.ProjectID)
+	//
+	//if credentials.JSON == nil || len(credentials.JSON) == 0 {
+	//	log.Fatalln("######## credentials.JSON == nil")
+	//} else {
+	//	var deb Debug
+	//	err = json.Unmarshal(credentials.JSON, &deb)
+	//	if err != nil {
+	//		log.Fatalln(err)
+	//	}
+	//
+	//	log.Printf("########: deb=%+v", deb)
+	//}
 
 	sheet, err := sheets.NewService(ctx,
-		option.WithCredentials(credentials),
+		//option.WithCredentials(credentials),
+		option.WithScopes(sheets.SpreadsheetsReadonlyScope),
 	)
 	if err != nil {
 		log.Fatalf("Unable to retrieve Sheets client: %v", err)
