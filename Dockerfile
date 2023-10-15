@@ -8,5 +8,6 @@ RUN rm -rf go.sum; \
 RUN go install cmd/server/server.go
 
 FROM alpine:latest
+RUN apk add --no-cache tzdata
 COPY --from=builder /go/bin/ /bin/
 CMD ["server"]
