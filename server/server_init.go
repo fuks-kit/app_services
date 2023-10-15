@@ -26,11 +26,8 @@ func init() {
 		log.Fatalln(err)
 	}
 
-	log.Printf("######## Credentials: %s", credentials.JSON)
-
 	sheet, err := sheets.NewService(ctx,
-		//option.WithCredentials(credentials),
-		option.WithTokenSource(credentials.TokenSource),
+		option.WithCredentials(credentials),
 	)
 	if err != nil {
 		log.Fatalf("Unable to retrieve Sheets client: %v", err)
