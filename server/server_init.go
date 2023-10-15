@@ -7,10 +7,7 @@ import (
 	"google.golang.org/api/option"
 	"google.golang.org/api/sheets/v4"
 	"log"
-	"os"
 )
-
-const credentialsFile = "credentials.json"
 
 var sheetsService *sheets.Service
 
@@ -21,43 +18,17 @@ func init() {
 		Scopes: []string{
 			sheets.SpreadsheetsReadonlyScope,
 		},
-		//Subject: "patrick.zierahn@fuks.org",
-		//Subject: "fcs-account@fuks-app.iam.gserviceaccount.com",
-		Subject: os.Getenv("GOOGLE_SERVICE_ACCOUNT_EMAIL"),
+		Subject: "patrick.zierahn@fuks.org",
 	}
 
-	var credentials *auth.Credentials
-
-	if _, exist := os.Stat(credentialsFile); exist == nil {
-		//
-		// Use local credentials
-		//
-
-		log.Printf("Using local credentials: %s", credentialsFile)
-
-		jsonKey, err := os.ReadFile(credentialsFile)
-		if err != nil {
-			log.Fatalln(err)
-		}
-
-		cred, err := auth.CredentialsFromJSONWithParams(ctx, jsonKey, params)
-		if err != nil {
-			log.Fatalln(err)
-		}
-
-		credentials = cred
-
-	} else {
-		cred, err := auth.FindDefaultCredentialsWithParams(ctx, params)
-		if err != nil {
-			log.Fatalln(err)
-		}
-
-		credentials = cred
+	credentials, err := auth.FindDefaultCredentialsWithParams(ctx, params)
+	if err != nil {
+		log.Fatalln(err)
 	}
 
 	sheet, err := sheets.NewService(ctx,
-		option.WithCredentials(credentials),
+		//option.WithCredentials(credentials),
+		option.WithTokenSource(credentials.TokenSource),
 	)
 	if err != nil {
 		log.Fatalf("Unable to retrieve Sheets client: %v", err)
