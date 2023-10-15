@@ -62,13 +62,15 @@ func (service *AppServices) GetEvents(_ context.Context, _ *emptypb.Empty) (*pb.
 		contactImage, _ := row[7].(string)
 
 		event := &pb.Event{
-			Title:           title,
-			Subtitle:        subtitle,
-			Date:            timestamppb.New(date),
-			Location:        location,
-			ContactName:     contactName,
-			ContactEMail:    contactEMail,
-			ContactImageUrl: contactImage,
+			Title:    title,
+			Subtitle: subtitle,
+			Date:     timestamppb.New(date),
+			Location: location,
+			Contact: &pb.Contact{
+				Name:     contactName,
+				EMail:    contactEMail,
+				ImageUrl: contactImage,
+			},
 		}
 
 		events = append(events, event)
