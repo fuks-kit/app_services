@@ -26,7 +26,7 @@ func init() {
 		log.Fatalln(err)
 	}
 
-	log.Printf("Credentials: %s", credentials.JSON)
+	log.Printf("######## Credentials: %s", credentials.JSON)
 
 	sheet, err := sheets.NewService(ctx,
 		//option.WithCredentials(credentials),
