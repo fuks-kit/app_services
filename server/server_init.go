@@ -43,29 +43,11 @@ func init() {
 		log.Fatalln(err)
 	}
 
-	token, _ := credentials.TokenSource.Token()
-
 	log.Printf("######## credentials.ProjectID: %s", credentials.ProjectID)
 	log.Printf("######## JSON len: %d", len(credentials.JSON))
-	log.Printf("######## tok: %d %v", len(token.AccessToken), token.Expiry)
-	log.Printf("######## token.TokenType: %v", token.TokenType)
-
-	config, err := auth.JWTConfigFromJSON(
-		[]byte(token.AccessToken),
-		sheets.SpreadsheetsReadonlyScope,
-	)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	// Don't fuck with this. The email to the service account is required here!
-	config.Subject = "patrick.zierahn@fuks.org"
-
-	ts := config.TokenSource(ctx)
 
 	sheet, err := sheets.NewService(ctx,
-		//option.WithCredentials(credentials),
-		option.WithTokenSource(ts),
+		option.WithCredentials(credentials),
 	)
 	if err != nil {
 		log.Fatalf("Unable to retrieve Sheets client: %v", err)
