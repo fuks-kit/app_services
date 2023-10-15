@@ -8,6 +8,7 @@ import (
 	"google.golang.org/api/option"
 	"google.golang.org/api/sheets/v4"
 	"log"
+	"os"
 )
 
 var sheetsService *sheets.Service
@@ -34,16 +35,22 @@ func init() {
 		Subject: "patrick.zierahn@fuks.org",
 	}
 
+	log.Printf("######## GOOGLE_APPLICATION_CREDENTIALS: %s", os.Getenv("GOOGLE_APPLICATION_CREDENTIALS"))
+
 	credentials, err := auth.FindDefaultCredentialsWithParams(ctx, params)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	log.Printf("ProjectID: %s", credentials.ProjectID)
+	log.Printf("######## ProjectID: %s", credentials.ProjectID)
 
 	var deb Debug
-	json.Unmarshal(credentials.JSON, &deb)
-	log.Printf("########: %+v", deb)
+	err = json.Unmarshal(credentials.JSON, &deb)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	log.Printf("########: deb=%+v", deb)
 
 	sheet, err := sheets.NewService(ctx,
 		option.WithCredentials(credentials),
