@@ -44,13 +44,17 @@ func init() {
 
 	log.Printf("######## ProjectID: %s", credentials.ProjectID)
 
-	var deb Debug
-	err = json.Unmarshal(credentials.JSON, &deb)
-	if err != nil {
-		log.Fatalln(err)
-	}
+	if credentials.JSON == nil || len(credentials.JSON) == 0 {
+		log.Fatalln("######## credentials.JSON == nil")
+	} else {
+		var deb Debug
+		err = json.Unmarshal(credentials.JSON, &deb)
+		if err != nil {
+			log.Fatalln(err)
+		}
 
-	log.Printf("########: deb=%+v", deb)
+		log.Printf("########: deb=%+v", deb)
+	}
 
 	sheet, err := sheets.NewService(ctx,
 		option.WithCredentials(credentials),
