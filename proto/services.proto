@@ -43,11 +43,11 @@ message Projects {
   repeated Project items = 1;
 }
 
-
 message KarlsruherTransfer {
   string title = 1;
   string subtitle = 2;
-  string pdfUrl = 3;
+  string imageUrl = 3;
+  string pdfUrl = 4;
 }
 
 message KarlsruherTransfers {
