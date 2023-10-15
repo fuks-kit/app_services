@@ -9,7 +9,7 @@ package endpoints.fcs.v1;
 
 service AppServices {
   rpc GetEvents(google.protobuf.Empty) returns (Events);
-  rpc GetProjects(google.protobuf.Empty) returns (Events);
+  rpc GetProjects(google.protobuf.Empty) returns (Projects);
   rpc GetKTs(google.protobuf.Empty) returns (KarlsruherTransfers);
 }
 

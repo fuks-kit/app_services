@@ -30,7 +30,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AppServicesClient interface {
 	GetEvents(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Events, error)
-	GetProjects(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Events, error)
+	GetProjects(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Projects, error)
 	GetKTs(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*KarlsruherTransfers, error)
 }
 
@@ -51,8 +51,8 @@ func (c *appServicesClient) GetEvents(ctx context.Context, in *emptypb.Empty, op
 	return out, nil
 }
 
-func (c *appServicesClient) GetProjects(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Events, error) {
-	out := new(Events)
+func (c *appServicesClient) GetProjects(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*Projects, error) {
+	out := new(Projects)
 	err := c.cc.Invoke(ctx, AppServices_GetProjects_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -74,7 +74,7 @@ func (c *appServicesClient) GetKTs(ctx context.Context, in *emptypb.Empty, opts 
 // for forward compatibility
 type AppServicesServer interface {
 	GetEvents(context.Context, *emptypb.Empty) (*Events, error)
-	GetProjects(context.Context, *emptypb.Empty) (*Events, error)
+	GetProjects(context.Context, *emptypb.Empty) (*Projects, error)
 	GetKTs(context.Context, *emptypb.Empty) (*KarlsruherTransfers, error)
 	mustEmbedUnimplementedAppServicesServer()
 }
@@ -86,7 +86,7 @@ type UnimplementedAppServicesServer struct {
 func (UnimplementedAppServicesServer) GetEvents(context.Context, *emptypb.Empty) (*Events, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetEvents not implemented")
 }
-func (UnimplementedAppServicesServer) GetProjects(context.Context, *emptypb.Empty) (*Events, error) {
+func (UnimplementedAppServicesServer) GetProjects(context.Context, *emptypb.Empty) (*Projects, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetProjects not implemented")
 }
 func (UnimplementedAppServicesServer) GetKTs(context.Context, *emptypb.Empty) (*KarlsruherTransfers, error) {
