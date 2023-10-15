@@ -22,7 +22,8 @@ func init() {
 			sheets.SpreadsheetsReadonlyScope,
 		},
 		//Subject: "patrick.zierahn@fuks.org",
-		Subject: "fcs-account@fuks-app.iam.gserviceaccount.com",
+		//Subject: "fcs-account@fuks-app.iam.gserviceaccount.com",
+		Subject: os.Getenv("GOOGLE_SERVICE_ACCOUNT_EMAIL"),
 	}
 
 	var credentials *auth.Credentials
