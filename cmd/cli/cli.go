@@ -14,9 +14,10 @@ import (
 )
 
 const (
-	//host       = "app-services-befklaxdqa-ey.a.run.app:443"
-	host       = "localhost:30336"
-	isInsecure = true
+	host       = "app-services-befklaxdqa-ey.a.run.app:443"
+	isInsecure = false
+	//host       = "localhost:30336"
+	//isInsecure = true
 )
 
 func main() {
