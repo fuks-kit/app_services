@@ -18,7 +18,7 @@ func init() {
 		Scopes: []string{
 			sheets.SpreadsheetsReadonlyScope,
 		},
-		Subject: "patrick.zierahn@fuks.org",
+		Subject: "113222746783594416669",
 	}
 
 	credentials, err := auth.FindDefaultCredentialsWithParams(ctx, params)
