@@ -3,34 +3,63 @@ package server
 import (
 	"context"
 	_ "embed"
-	"golang.org/x/oauth2/google"
+	auth "golang.org/x/oauth2/google"
 	"google.golang.org/api/option"
 	"google.golang.org/api/sheets/v4"
 	"log"
+	"os"
 )
 
-//go:embed credentials.json
-var credentials []byte
+const credentialsFile = "credentials.json"
 
 var sheetsService *sheets.Service
 
 func init() {
-	config, err := google.JWTConfigFromJSON(
-		credentials,
-		sheets.SpreadsheetsReadonlyScope,
-	)
-	if err != nil {
-		log.Fatalln(err)
+	ctx := context.Background()
+
+	params := auth.CredentialsParams{
+		Scopes: []string{
+			sheets.SpreadsheetsReadonlyScope,
+		},
+		Subject: "patrick.zierahn@fuks.org",
 	}
 
-	// Don't fuck with this, the mail needs to be set here
-	config.Subject = "patrick.zierahn@fuks.org"
+	var credentials *auth.Credentials
 
-	ctx := context.Background()
-	ts := config.TokenSource(ctx)
+	if _, exist := os.Stat(credentialsFile); exist == nil {
+		//
+		// Use local credentials
+		//
 
-	sheetsService, err = sheets.NewService(ctx, option.WithTokenSource(ts))
+		log.Printf("Using local credentials: %s", credentialsFile)
+
+		jsonKey, err := os.ReadFile(credentialsFile)
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		cred, err := auth.CredentialsFromJSONWithParams(ctx, jsonKey, params)
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		credentials = cred
+
+	} else {
+		cred, err := auth.FindDefaultCredentialsWithParams(ctx, params)
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		credentials = cred
+	}
+
+	sheet, err := sheets.NewService(ctx,
+		option.WithCredentials(credentials),
+	)
 	if err != nil {
 		log.Fatalf("Unable to retrieve Sheets client: %v", err)
 	}
+
+	sheetsService = sheet
 }
