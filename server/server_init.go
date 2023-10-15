@@ -21,8 +21,8 @@ func init() {
 		Scopes: []string{
 			sheets.SpreadsheetsReadonlyScope,
 		},
-		//Subject: "patrick.zierahn@fuks.org",
-		Subject: "fcs-account@fuks-app.iam.gserviceaccount.com",
+		Subject: "patrick.zierahn@fuks.org",
+		//Subject: "fcs-account@fuks-app.iam.gserviceaccount.com",
 	}
 
 	var credentials *auth.Credentials
@@ -47,7 +47,7 @@ func init() {
 		credentials = cred
 
 	} else {
-		cred, err := auth.FindDefaultCredentialsWithParams(ctx, params)
+		cred, err := auth.FindDefaultCredentials(ctx, params.Scopes...)
 		if err != nil {
 			log.Fatalln(err)
 		}
