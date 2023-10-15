@@ -3,7 +3,6 @@ package server
 import (
 	"context"
 	_ "embed"
-	"golang.org/x/oauth2"
 	auth "golang.org/x/oauth2/google"
 	"google.golang.org/api/option"
 	"google.golang.org/api/sheets/v4"
@@ -44,10 +43,14 @@ func init() {
 		log.Fatalln(err)
 	}
 
-	client := oauth2.NewClient(ctx, credentials.TokenSource)
+	token, _ := credentials.TokenSource.Token()
+
+	log.Printf("######## credentials.ProjectID: %s", credentials.ProjectID)
+	log.Printf("######## JSON len: %d", len(credentials.JSON))
+	log.Printf("######## tok: %d %v", len(token.AccessToken), token.Expiry)
+
 	sheet, err := sheets.NewService(ctx,
-		//option.WithCredentials(credentials),
-		option.WithHTTPClient(client),
+		option.WithCredentials(credentials),
 	)
 	if err != nil {
 		log.Fatalf("Unable to retrieve Sheets client: %v", err)
