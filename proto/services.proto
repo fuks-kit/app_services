@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./proto";
+
+package endpoints.fcs.v1;
+
+service AppServices {
+  rpc GetEvents(google.protobuf.Empty) returns (Events);
+  rpc GetProjects(google.protobuf.Empty) returns (Events);
+  rpc GetKTs(google.protobuf.Empty) returns (KarlsruherTransfers);
+}
+
+message Event {
+  string title = 1;
+  string subtitle = 2;
+  google.protobuf.Timestamp date = 3;
+  string location = 4;
+
+  string contactName = 5;
+  string contactEMail = 6;
+  string contactImageUrl = 7;
+}
+
+message Events {
+  repeated Event items = 1;
+}
+
+message Project {
+  string title = 1;
+  string subtitle = 2;
+  string managerName = 3;
+  string managerEmail = 4;
+  string managerImageUrl = 5;
+  string details = 6;
+  string label = 7;
+}
+
+message Projects {
+  repeated Project items = 1;
+}
+
+
+message KarlsruherTransfer {
+  string title = 1;
+  string subtitle = 2;
+  string managerName = 3;
+  string managerEmail = 4;
+  string managerImageUrl = 5;
+  string details = 6;
+  string label = 7;
+}
+
+message KarlsruherTransfers {
+  repeated KarlsruherTransfer items = 1;
+}

@@ -1,12 +1,38 @@
 package main
 
 import (
-	"fuks_cloud_services/workspace"
+	pb "fuks_cloud_services/proto"
+	"fuks_cloud_services/server"
+	"google.golang.org/grpc"
 	"log"
+	"net"
+	"os"
 )
 
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
-	workspace.ReadSheet()
+	service := server.NewAppServices(server.Config{
+		SheetId:       os.Getenv("FUKS_APP_CONTENT_SHEET_ID"),
+		EventsSheet:   "Events",
+		ProjectsSheet: "Projects",
+		KtSheet:       "Karlsruher Transfer",
+	})
+
+	grpcServer := grpc.NewServer()
+	pb.RegisterAppServicesServer(grpcServer, service)
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "30336"
+	}
+
+	lis, err := net.Listen("tcp", ":"+port)
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
+
+	if err = grpcServer.Serve(lis); err != nil {
+		log.Fatalf("failed to serve: %v", err)
+	}
 }
