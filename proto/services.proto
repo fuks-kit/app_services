@@ -18,24 +18,25 @@ message Event {
   string subtitle = 2;
   google.protobuf.Timestamp date = 3;
   string location = 4;
-
-  string contactName = 5;
-  string contactEMail = 6;
-  string contactImageUrl = 7;
+  Contact contact = 5;
 }
 
 message Events {
   repeated Event items = 1;
 }
 
+message Contact {
+  string name = 1;
+  string eMail = 2;
+  string imageUrl = 3;
+}
+
 message Project {
   string title = 1;
   string subtitle = 2;
-  string managerName = 3;
-  string managerEmail = 4;
-  string managerImageUrl = 5;
-  string details = 6;
-  string label = 7;
+  string label = 3;
+  string details = 4;
+  Contact manager = 5;
 }
 
 message Projects {
@@ -46,11 +47,7 @@ message Projects {
 message KarlsruherTransfer {
   string title = 1;
   string subtitle = 2;
-  string managerName = 3;
-  string managerEmail = 4;
-  string managerImageUrl = 5;
-  string details = 6;
-  string label = 7;
+  string pdfUrl = 3;
 }
 
 message KarlsruherTransfers {
