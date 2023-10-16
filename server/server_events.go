@@ -53,7 +53,7 @@ func (service *AppServices) GetEvents(_ context.Context, _ *emptypb.Empty) (*pb.
 		}
 
 		eventDate := dateStr + " " + timeStr
-		date, err := time.ParseInLocation("02/01/2006 15:04", eventDate, loc)
+		date, err := time.ParseInLocation("2/1/2006 15:04", eventDate, loc)
 		if err != nil {
 			log.Printf("Unable to parse date: %v", err)
 			continue
