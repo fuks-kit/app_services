@@ -7,6 +7,7 @@ import (
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"log"
+	"sort"
 	"time"
 )
 
@@ -78,6 +79,11 @@ func (service *AppServices) GetEvents(_ context.Context, _ *emptypb.Empty) (*pb.
 
 		events = append(events, event)
 	}
+
+	// Sort events by date
+	sort.Slice(events, func(i, j int) bool {
+		return events[i].Date.AsTime().Before(events[j].Date.AsTime())
+	})
 
 	return &pb.Events{Items: events}, nil
 }
