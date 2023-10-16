@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Changed
 
 - Rename go package to `github.com/fuks-kit/app_services`
+- Update dependencies
 
 ## [1.0.3] - 2023-10-16
 
