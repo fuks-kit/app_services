@@ -1,7 +1,7 @@
 package server
 
 import (
-	pb "fuks_cloud_services/proto"
+	pb "github.com/fuks-kit/app_services/proto"
 )
 
 type Config struct {

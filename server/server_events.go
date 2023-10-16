@@ -3,7 +3,7 @@ package server
 import (
 	"context"
 	"fmt"
-	pb "fuks_cloud_services/proto"
+	pb "github.com/fuks-kit/app_services/proto"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"log"

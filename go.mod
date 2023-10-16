@@ -1,4 +1,4 @@
-module fuks_cloud_services
+module github.com/fuks-kit/app_services
 
 go 1.21
 

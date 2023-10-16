@@ -1,8 +1,8 @@
 package main
 
 import (
-	pb "fuks_cloud_services/proto"
-	"fuks_cloud_services/server"
+	pb "github.com/fuks-kit/app_services/proto"
+	"github.com/fuks-kit/app_services/server"
 	"google.golang.org/grpc"
 	"log"
 	"net"
