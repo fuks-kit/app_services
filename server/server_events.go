@@ -12,7 +12,7 @@ import (
 )
 
 func (service *AppServices) GetEvents(_ context.Context, _ *emptypb.Empty) (*pb.Events, error) {
-	readRange := service.config.EventsSheet + "!A2:H"
+	readRange := service.config.EventsSheet + "!A2:K"
 
 	resp, err := sheetsService.
 		Spreadsheets.
@@ -26,6 +26,10 @@ func (service *AppServices) GetEvents(_ context.Context, _ *emptypb.Empty) (*pb.
 
 	var events []*pb.Event
 	for _, row := range resp.Values {
+
+		if len(row) < 11 {
+			row = append(row, make([]interface{}, 11-len(row))...)
+		}
 
 		title, ok := row[0].(string)
 		if !ok || title == "" {
@@ -64,6 +68,9 @@ func (service *AppServices) GetEvents(_ context.Context, _ *emptypb.Empty) (*pb.
 		contactName, _ := row[5].(string)
 		contactEMail, _ := row[6].(string)
 		contactImage, _ := row[7].(string)
+		label, _ := row[8].(string)
+		buttonText, _ := row[9].(string)
+		buttonHref, _ := row[10].(string)
 
 		event := &pb.Event{
 			Title:    title,
@@ -75,6 +82,9 @@ func (service *AppServices) GetEvents(_ context.Context, _ *emptypb.Empty) (*pb.
 				EMail:    contactEMail,
 				ImageUrl: contactImage,
 			},
+			Label:      label,
+			ButtonText: buttonText,
+			ButtonHref: buttonHref,
 		}
 
 		events = append(events, event)
