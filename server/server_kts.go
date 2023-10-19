@@ -24,6 +24,10 @@ func (service *AppServices) GetKarlsruherTransfers(_ context.Context, _ *emptypb
 	var kts []*pb.KarlsruherTransfer
 	for _, row := range resp.Values {
 
+		if len(row) < 4 {
+			row = append(row, make([]interface{}, 4-len(row))...)
+		}
+
 		title, ok := row[0].(string)
 		if !ok || title == "" {
 			continue

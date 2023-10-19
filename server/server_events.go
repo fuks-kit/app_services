@@ -36,10 +36,7 @@ func (service *AppServices) GetEvents(_ context.Context, _ *emptypb.Empty) (*pb.
 			continue
 		}
 
-		subtitle, ok := row[1].(string)
-		if !ok || subtitle == "" {
-			continue
-		}
+		subtitle, _ := row[1].(string)
 
 		dateStr, ok := row[2].(string)
 		if !ok || dateStr == "" {

@@ -24,16 +24,16 @@ func (service *AppServices) GetProjects(_ context.Context, _ *emptypb.Empty) (*p
 	var projects []*pb.Project
 	for _, row := range resp.Values {
 
+		if len(row) < 7 {
+			row = append(row, make([]interface{}, 7-len(row))...)
+		}
+
 		title, ok := row[0].(string)
 		if !ok || title == "" {
 			continue
 		}
 
-		subtitle, ok := row[1].(string)
-		if !ok || subtitle == "" {
-			continue
-		}
-
+		subtitle, _ := row[1].(string)
 		label, _ := row[2].(string)
 
 		managerName, ok := row[3].(string)
