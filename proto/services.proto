@@ -19,6 +19,9 @@ message Event {
   google.protobuf.Timestamp date = 3;
   string location = 4;
   Contact contact = 5;
+  string label = 6;
+  string buttonText = 7;
+  string buttonHref = 8;
 }
 
 message Events {
