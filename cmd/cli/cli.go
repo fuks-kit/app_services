@@ -32,7 +32,6 @@ func main() {
 	flag.Parse()
 
 	actions := flag.Args()
-
 	if len(actions) == 0 {
 		log.Fatalf("no action specified: %v", validActions)
 	}
@@ -73,7 +72,7 @@ func main() {
 	// Get Events
 	//
 
-	if slices.Contains(validActions, "get_events") {
+	if slices.Contains(actions, "get_events") {
 		events, err := appServices.GetEvents(ctx, &emptypb.Empty{})
 		if err != nil {
 			log.Fatalf("could not get events: %v", err)
@@ -87,7 +86,7 @@ func main() {
 	// Get Projects
 	//
 
-	if slices.Contains(validActions, "get_projects") {
+	if slices.Contains(actions, "get_projects") {
 		projects, err := appServices.GetProjects(ctx, &emptypb.Empty{})
 		if err != nil {
 			log.Fatalf("could not get events: %v", err)
@@ -101,7 +100,7 @@ func main() {
 	// Get Kalrsruhe Transfers
 	//
 
-	if slices.Contains(validActions, "get_karlsruher_transfers") {
+	if slices.Contains(actions, "get_karlsruher_transfers") {
 		kts, err := appServices.GetKarlsruherTransfers(ctx, &emptypb.Empty{})
 		if err != nil {
 			log.Fatalf("could not get events: %v", err)
