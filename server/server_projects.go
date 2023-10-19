@@ -33,11 +33,7 @@ func (service *AppServices) GetProjects(_ context.Context, _ *emptypb.Empty) (*p
 			continue
 		}
 
-		subtitle, ok := row[1].(string)
-		if !ok || subtitle == "" {
-			continue
-		}
-
+		subtitle, _ := row[1].(string)
 		label, _ := row[2].(string)
 
 		managerName, ok := row[3].(string)

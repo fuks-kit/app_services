@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Make subtitle in events optional
+- Make subtitle in projects optional
 
 ## [1.1.0] - 2023-10-19
 
