@@ -42,6 +42,23 @@ Cloud Run.
 
 ## Generate gRPC Definitions
 
+### Dependencies
+
+Before you begin, make sure you have the following dependencies installed:
+
+- Protocol Buffers: Install with Homebrew (macOS) or your preferred package manager.
+   ```bash
+   brew install protobuf
+   ```
+
+- Go Protobuf and gRPC code generation tools:
+   ```bash
+   go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+   go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+   ```
+
+### Generate Code
+
 To generate gRPC definitions, follow these steps:
 
 1. Update APP_DIR Variable
