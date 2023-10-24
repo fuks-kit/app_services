@@ -4,13 +4,24 @@ This repository contains gRPC services for the fuks App
 
 ## Command Line Interface
 
-```bash
-# Start the server
-export GOOGLE_APPLICATION_CREDENTIALS=credentials.json
-go run cmd/server/server.go
+To kickstart your journey with these services, you can use the following commands:
 
-# Start the client
-go run cmd/cli/cli.go [get_events get_projects get_karlsruher_transfers]
+### Start the Server
+
+To initiate the server, set your Google Application Credentials using `credentials.json` and execute:
+
+```bash
+go run cmd/server/server.go
+```
+
+### Start the Client
+
+Launch the client with one of the following commands:
+
+```bash
+go run cmd/cli/cli.go get_events
+go run cmd/cli/cli.go get_projects
+go run cmd/cli/cli.go get_karlsruher_transfers
 ```
 
 ## Deploy a new release
@@ -18,7 +29,7 @@ go run cmd/cli/cli.go [get_events get_projects get_karlsruher_transfers]
 Prepare a new release by following these steps:
 
 1. Update the changelog in `CHANGELOG.md`
-2. Update dependencies `go get -a all`
+2. Update dependencies `go get -u all`
 3. Commit changes `git commit -am "Release vX.X.X"`
 4. Push changes `git push`
 5. Create a new git tag:
@@ -26,21 +37,28 @@ Prepare a new release by following these steps:
     2. `git push origin vX.X.X`
 6. Merge `main` branch into `stable` branch
 
-## Update gRPC definitions
+## Generate gRPC Definitions
 
-After updating the gRPC definitions in `proto/` run the following command to update the generated code:
+To generate gRPC definitions, follow these steps:
 
-```bash
-# Generate gRPC code for Go
-make go
-```
+1. Update APP_DIR Variable
+    - In the `proto/Makefile`, update the `APP_DIR` variable to point to the Fuks App directory.
 
-Before you can generate the gRPC services, you need to update the APP_DIR variable in `proto/Makefile` to point to the
-fuks app directory. Generate gRPC code for fuks app:
+2. Update PROTO_ROOT_DIR Variable
+    - If necessary, modify the `PROTO_ROOT_DIR` variable in the `proto/Makefile` to suit your setup.
 
-```bash
-# Update gRPC code for the fuks app
-make dart
-```
+3. Update gRPC Definitions
+    - Make changes to the gRPC definitions in `proto/services.proto` as needed.
 
-> **Note: You may need to update the `PROTO_ROOT_DIR` variable in `proto/Makefile`**
+4. Generate Code
+    - Use the following commands to generate the code:
+        - Generate Go code:
+          ```bash
+          make go
+          ```
+        - Generate Fuks App code:
+          ```bash
+          make dart
+          ```
+
+These guidelines should help you make the most out of the Fuks Cloud Services repository. Enjoy your journey!
