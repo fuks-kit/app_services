@@ -25,3 +25,22 @@ Prepare a new release by following these steps:
     1. `git tag -a vX.X.X -m "Release vX.X.X"`
     2. `git push origin vX.X.X`
 6. Merge `main` branch into `stable` branch
+
+## Update gRPC definitions
+
+After updating the gRPC definitions in `proto/` run the following command to update the generated code:
+
+```bash
+# Generate gRPC code for Go
+make go
+```
+
+Before you can generate the gRPC services, you need to update the APP_DIR variable in `proto/Makefile` to point to the
+fuks app directory. Generate gRPC code for fuks app:
+
+```bash
+# Update gRPC code for the fuks app
+make dart
+```
+
+> **Note: You may need to update the `PROTO_ROOT_DIR` variable in `proto/Makefile`**
