@@ -37,6 +37,9 @@ Prepare a new release by following these steps:
     2. `git push origin vX.X.X`
 6. Merge `main` branch into `stable` branch
 
+After the release is merged into the `stable` branch, the new release will be automatically deployed by using Google
+Cloud Run.
+
 ## Generate gRPC Definitions
 
 To generate gRPC definitions, follow these steps:
