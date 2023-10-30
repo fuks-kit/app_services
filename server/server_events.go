@@ -8,12 +8,30 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"log"
 	"sort"
+	"sync"
 	"time"
 )
 
-func (service *AppServices) GetEvents(_ context.Context, _ *emptypb.Empty) (*pb.Events, error) {
-	readRange := service.config.EventsSheet + "!A2:K"
+var (
+	eventMutex sync.RWMutex
+	eventCache *pb.Events
+	eventTime  time.Time
+)
 
+func (service *AppServices) GetEvents(_ context.Context, _ *emptypb.Empty) (*pb.Events, error) {
+
+	eventMutex.RLock()
+	validCache := eventCache != nil && time.Now().Sub(eventTime) < 5*time.Minute
+	eventMutex.RUnlock()
+
+	if validCache {
+		return eventCache, nil
+	}
+
+	eventMutex.Lock()
+	defer eventMutex.Unlock()
+
+	readRange := service.config.EventsSheet + "!A2:K"
 	resp, err := sheetsService.
 		Spreadsheets.
 		Values.
@@ -92,5 +110,8 @@ func (service *AppServices) GetEvents(_ context.Context, _ *emptypb.Empty) (*pb.
 		return events[i].Date.AsTime().Before(events[j].Date.AsTime())
 	})
 
-	return &pb.Events{Items: events}, nil
+	eventCache = &pb.Events{Items: events}
+	eventTime = time.Now()
+
+	return eventCache, nil
 }
