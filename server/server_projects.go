@@ -6,11 +6,30 @@ import (
 	pb "github.com/fuks-kit/app_services/proto"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"log"
+	"sync"
+	"time"
+)
+
+var (
+	projectsMutex sync.RWMutex
+	projectsCache *pb.Projects
+	projectsTime  time.Time
 )
 
 func (service *AppServices) GetProjects(_ context.Context, _ *emptypb.Empty) (*pb.Projects, error) {
-	readRange := service.config.ProjectsSheet + "!A2:G"
 
+	projectsMutex.RLock()
+	validCache := projectsCache != nil && time.Now().Sub(projectsTime) < 5*time.Minute
+	projectsMutex.RUnlock()
+
+	if validCache {
+		return projectsCache, nil
+	}
+
+	ktMutex.Lock()
+	defer ktMutex.Unlock()
+
+	readRange := service.config.ProjectsSheet + "!A2:G"
 	resp, err := sheetsService.
 		Spreadsheets.
 		Values.
@@ -66,5 +85,8 @@ func (service *AppServices) GetProjects(_ context.Context, _ *emptypb.Empty) (*p
 		})
 	}
 
-	return &pb.Projects{Items: projects}, nil
+	projectsCache = &pb.Projects{Items: projects}
+	projectsTime = time.Now()
+
+	return projectsCache, nil
 }

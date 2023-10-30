@@ -23,3 +23,4 @@ go.work
 **/credentials.json
 
 .idea
+**.DS_Store
