@@ -54,7 +54,10 @@ func (service *AppServices) GetEvents(_ context.Context, _ *emptypb.Empty) (*pb.
 			continue
 		}
 
-		subtitle, _ := row[1].(string)
+		details, ok := row[1].(string)
+		if !ok || details == "" {
+			continue
+		}
 
 		dateStr, ok := row[2].(string)
 		if !ok || dateStr == "" {
@@ -89,7 +92,7 @@ func (service *AppServices) GetEvents(_ context.Context, _ *emptypb.Empty) (*pb.
 
 		event := &pb.Event{
 			Title:    title,
-			Subtitle: subtitle,
+			Details:  details,
 			Date:     timestamppb.New(date),
 			Location: location,
 			Contact: &pb.Contact{
