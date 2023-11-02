@@ -11,6 +11,7 @@ To kickstart your journey with these services, you can use the following command
 To initiate the server, set your Google Application Credentials using `credentials.json` and execute:
 
 ```bash
+export GOOGLE_APPLICATION_CREDENTIALS=credentials.json
 go run cmd/server/server.go
 ```
 
