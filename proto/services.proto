@@ -15,7 +15,7 @@ service AppServices {
 
 message Event {
   string title = 1;
-  string subtitle = 2;
+  string details = 2;
   google.protobuf.Timestamp date = 3;
   string location = 4;
   Contact contact = 5;
