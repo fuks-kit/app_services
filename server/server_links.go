@@ -6,15 +6,9 @@ import (
 	pb "github.com/fuks-kit/app_services/proto"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"log"
-	"sync"
-	"time"
 )
 
-var (
-	linksMutex sync.RWMutex
-	linksCache *pb.Links
-	linksTime  time.Time
-)
+var linksCache = newCache[pb.Links]()
 
 const (
 	linksTitle = iota
@@ -24,16 +18,10 @@ const (
 
 func (service *AppServices) GetLinks(_ context.Context, _ *emptypb.Empty) (*pb.Links, error) {
 
-	linksMutex.RLock()
-	validCache := linksCache != nil && time.Now().Sub(linksTime) < 5*time.Minute
-	linksMutex.RUnlock()
-
+	data, validCache := linksCache.get()
 	if validCache {
-		return linksCache, nil
+		return data, nil
 	}
-
-	linksMutex.Lock()
-	defer linksMutex.Unlock()
 
 	readRange := service.config.LinksSheet + "!A2:C"
 	resp, err := sheetsService.
@@ -74,8 +62,8 @@ func (service *AppServices) GetLinks(_ context.Context, _ *emptypb.Empty) (*pb.L
 		})
 	}
 
-	linksCache = &pb.Links{Items: links}
-	linksTime = time.Now()
+	data = &pb.Links{Items: links}
+	linksCache.set(data)
 
-	return linksCache, nil
+	return data, nil
 }

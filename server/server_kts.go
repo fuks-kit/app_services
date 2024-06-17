@@ -6,28 +6,16 @@ import (
 	pb "github.com/fuks-kit/app_services/proto"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"log"
-	"sync"
-	"time"
 )
 
-var (
-	ktMutex sync.RWMutex
-	ktCache *pb.KarlsruherTransfers
-	ktTime  time.Time
-)
+var ktCache = newCache[pb.KarlsruherTransfers]()
 
 func (service *AppServices) GetKarlsruherTransfers(_ context.Context, _ *emptypb.Empty) (*pb.KarlsruherTransfers, error) {
 
-	ktMutex.RLock()
-	validCache := ktCache != nil && time.Now().Sub(ktTime) < 5*time.Minute
-	ktMutex.RUnlock()
-
+	data, validCache := ktCache.get()
 	if validCache {
-		return ktCache, nil
+		return data, nil
 	}
-
-	ktMutex.Lock()
-	defer ktMutex.Unlock()
 
 	readRange := service.config.KTSheet + "!A2:H"
 	resp, err := sheetsService.
@@ -77,8 +65,8 @@ func (service *AppServices) GetKarlsruherTransfers(_ context.Context, _ *emptypb
 		kts = append(kts, kt)
 	}
 
-	ktCache = &pb.KarlsruherTransfers{Items: kts}
-	ktTime = time.Now()
+	data = &pb.KarlsruherTransfers{Items: kts}
+	ktCache.set(data)
 
-	return ktCache, nil
+	return data, nil
 }

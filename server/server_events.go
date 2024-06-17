@@ -8,28 +8,17 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"log"
 	"sort"
-	"sync"
 	"time"
 )
 
-var (
-	eventMutex sync.RWMutex
-	eventCache *pb.Events
-	eventTime  time.Time
-)
+var eventsCache = newCache[pb.Events]()
 
 func (service *AppServices) GetEvents(_ context.Context, _ *emptypb.Empty) (*pb.Events, error) {
 
-	eventMutex.RLock()
-	validCache := eventCache != nil && time.Now().Sub(eventTime) < 5*time.Minute
-	eventMutex.RUnlock()
-
+	data, validCache := eventsCache.get()
 	if validCache {
-		return eventCache, nil
+		return data, nil
 	}
-
-	eventMutex.Lock()
-	defer eventMutex.Unlock()
 
 	readRange := service.config.EventsSheet + "!A2:K"
 	resp, err := sheetsService.
@@ -113,8 +102,8 @@ func (service *AppServices) GetEvents(_ context.Context, _ *emptypb.Empty) (*pb.
 		return events[i].Date.AsTime().Before(events[j].Date.AsTime())
 	})
 
-	eventCache = &pb.Events{Items: events}
-	eventTime = time.Now()
+	data = &pb.Events{Items: events}
+	eventsCache.set(data)
 
-	return eventCache, nil
+	return data, nil
 }
