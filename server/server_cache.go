@@ -5,17 +5,21 @@ import (
 	"time"
 )
 
+// A generic cache that stores a value of type T
+//
+// The Google Sheets API has a rate limit, to avoid hitting the rate limit we cache the data for 5 minutes.
 type cache[T any] struct {
 	mutex sync.RWMutex
 	data  *T
 	time  time.Time
 }
 
+// Create a new cache instance
 func newCache[T any]() *cache[T] {
-	// Returning a new instance of a generic cache
 	return &cache[T]{}
 }
 
+// Get the cached data and whether it is valid
 func (c *cache[T]) get() (*T, bool) {
 	c.mutex.RLock()
 	defer c.mutex.RUnlock()
@@ -27,6 +31,7 @@ func (c *cache[T]) get() (*T, bool) {
 	return c.data, validCache
 }
 
+// Set the cached data
 func (c *cache[T]) set(data *T) {
 	c.mutex.Lock()
 	defer c.mutex.Unlock()
