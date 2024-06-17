@@ -17,7 +17,7 @@ service AppServices {
 message Link {
   string title = 1;
   string description = 2;
-  string link = 3;
+  string url = 3;
 }
 
 message Links {
