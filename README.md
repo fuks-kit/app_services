@@ -35,7 +35,7 @@ Prepare a new release by following these steps:
 3. Commit changes `git commit -am "Release vX.X.X"`
 4. Push changes `git push`
 5. Create a new git tag:
-    1. `git tag -a vX.X.X -m "Release vX.X.X"`
+    1. `git tag vX.X.X`
     2. `git push origin vX.X.X`
 6. Merge `main` branch into `stable` branch
 
