@@ -26,8 +26,8 @@ func (service *AppServices) GetProjects(_ context.Context, _ *emptypb.Empty) (*p
 		return projectsCache, nil
 	}
 
-	ktMutex.Lock()
-	defer ktMutex.Unlock()
+	projectsMutex.Lock()
+	defer projectsMutex.Unlock()
 
 	readRange := service.config.ProjectsSheet + "!A2:G"
 	resp, err := sheetsService.
