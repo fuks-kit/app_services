@@ -24,6 +24,7 @@ var validActions = []string{
 	"get_events",
 	"get_projects",
 	"get_karlsruher_transfers",
+	"get_links",
 }
 
 func main() {
@@ -33,7 +34,7 @@ func main() {
 
 	actions := flag.Args()
 	if len(actions) == 0 {
-		log.Fatalf("no action specified: %v", validActions)
+		actions = validActions
 	}
 
 	var opts []grpc.DialOption
@@ -108,5 +109,19 @@ func main() {
 
 		byt, _ := json.MarshalIndent(kts, "", "  ")
 		log.Printf("GetKarlsruherTransfers: %s", byt)
+	}
+
+	//
+	// Get Links
+	//
+
+	if slices.Contains(actions, "get_links") {
+		links, err := appServices.GetLinks(ctx, &emptypb.Empty{})
+		if err != nil {
+			log.Fatalf("could not get events: %v", err)
+		}
+
+		byt, _ := json.MarshalIndent(links, "", "  ")
+		log.Printf("GetLinks: %s", byt)
 	}
 }

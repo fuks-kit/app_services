@@ -17,6 +17,7 @@ func main() {
 		EventsSheet:   "Events",
 		ProjectsSheet: "Projects",
 		KTSheet:       "Karlsruher Transfer",
+		LinksSheet:    "Links",
 	})
 
 	grpcServer := grpc.NewServer()
