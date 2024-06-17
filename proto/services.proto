@@ -11,6 +11,17 @@ service AppServices {
   rpc GetEvents(google.protobuf.Empty) returns (Events);
   rpc GetProjects(google.protobuf.Empty) returns (Projects);
   rpc GetKarlsruherTransfers(google.protobuf.Empty) returns (KarlsruherTransfers);
+  rpc GetLinks(google.protobuf.Empty) returns (Links);
+}
+
+message Link {
+  string title = 1;
+  string description = 2;
+  string url = 3;
+}
+
+message Links {
+  repeated Link items = 1;
 }
 
 message Event {

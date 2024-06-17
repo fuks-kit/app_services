@@ -9,6 +9,7 @@ type Config struct {
 	EventsSheet   string
 	ProjectsSheet string
 	KTSheet       string
+	LinksSheet    string
 }
 
 type AppServices struct {
