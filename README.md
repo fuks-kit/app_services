@@ -23,6 +23,7 @@ Launch the client with one of the following commands:
 go run cmd/cli/cli.go get_events
 go run cmd/cli/cli.go get_projects
 go run cmd/cli/cli.go get_karlsruher_transfers
+go run cmd/cli/cli.go get_links
 ```
 
 ## Deploy a new release
